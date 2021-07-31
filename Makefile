@@ -30,7 +30,7 @@ tf-validate:
 # Creates an ssh key for the ec2 instance
 ssh-gen:
 	@echo "Generating ssh key for ec2 instance"
-	mkdir - ~/keys
-	yes | ssh-keygen -t rsa -b 4096 -f ~/keys/ec2-key -P ''
-	chmod 0644 ~/keys/ec2-key.pub
-	chmod 0600 ~/keys/ec2-key
+	mkdir -p ~/.keys
+	yes | ssh-keygen -t rsa -b 4096 -f ~/.keys/ec2-key -P ''
+	chmod 0644 ~/.keys/ec2-key.pub
+	chmod 0600 ~/.keys/ec2-key
