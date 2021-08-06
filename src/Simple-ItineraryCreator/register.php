@@ -7,7 +7,7 @@ if (isset($_POST['submit'])) {
 
 function register_user($email, $username, $password)
 {
-    global $register_url;
+    global $lambda_client;
 
     $body = [
         'email' => $email,
@@ -16,23 +16,27 @@ function register_user($email, $username, $password)
     ];
     $body_json = json_encode($body);
 
-    $curl = curl_init($register_url);
-    curl_setopt($curl, CURLOPT_POST, true);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $body_json);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    $result = curl_exec($curl);
-    $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-    curl_close($curl);
+    $result = $lambda_client->invoke([
+        'FunctionName' => '',
+        'Payload' => json_encode($body)
+    ]);
 
-    if ($statusCode == 409 || $statusCode == 400) {
-        echo $result . '<br>';
+    $result_arr = json_decode($result['Payload']->__toString(), true);
+    $statusCode = $result_arr['statusCode'];
+    $message = $result_arr['body'];
+
+    if ($statusCode == 409) {
+        echo 'Email already exists: ' . $result_arr['conflictingEmail'] . '</br>';
     } else if ($statusCode == 201) {
         redirect('login.php');
+    } else if ($statusCode == 400) {
+        echo $message . '<br>';
     } else {
-        echo 'Uncaught error: ' . $result . '<br>';
+        echo 'Uncaught error<br>';
     }
 }
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
