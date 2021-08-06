@@ -9,11 +9,23 @@ resource "random_string" "tfstaterand" {
 }
 
 resource "aws_s3_bucket" "sictfstate" {
-  bucket        = "sic-tfstate-${random_string.tfstaterand.result}"
+  bucket        = "lm-tfstate-${random_string.tfstaterand.result}"
   acl           = "private"
   force_destroy = true
 
   tags = {
     Name = "TF remote state"
+  }
+}
+
+resource "aws_dynamodb_table" "terraform_statelock" {
+  name           = "lm-locktable-${random_string.tfstatename.result}"
+  read_capacity  = 20
+  write_capacity = 20
+  hash_key       = "LockID"
+
+  attribute {
+    name = "LockID"
+    type = "S"
   }
 }
