@@ -1,4 +1,4 @@
-.PHONY: up down tf-plan tf-validate ssh-gen
+.PHONY: bootstrap up down tf-plan tf-validate ssh-gen
 
 # Deploys infra
 up:
@@ -9,6 +9,11 @@ up:
 down:
 	@echo "Destroying infra"
 	cd infra && terraform apply --auto-approve
+
+# Initalise bootstrap
+tf-bootstrap:
+	cd bootstrap && terraform init
+	cd bootstrap && terraform apply --auto-approve
 
 # Shows all the terraform outputs in infra
 tf-output:
