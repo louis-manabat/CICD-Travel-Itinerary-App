@@ -1,4 +1,4 @@
-.PHONY: bootstrap up down tf-plan tf-validate ssh-gen
+.PHONY: bootstrap up down tf-init tf-plan tf-validate ssh-gen
 
 # Deploys infra
 up:
@@ -12,8 +12,14 @@ down:
 
 # Initalise bootstrap
 tf-bootstrap:
+	@echo "Running terraform bootstrap"
 	cd bootstrap && terraform init
 	cd bootstrap && terraform apply --auto-approve
+
+# Initalising terraform
+tf-init:
+	@echo "Initalising terraform infra"
+	cd infra && terraform init
 
 # Shows all the terraform outputs in infra
 tf-output:
