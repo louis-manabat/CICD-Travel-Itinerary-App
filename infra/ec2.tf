@@ -88,3 +88,17 @@ resource "aws_lb_listener" "sic_app_lb_listener" {
     target_group_arn = aws_lb_target_group.sic_app_lb_tg.arn
   }
 }
+
+resource "aws_instance" "sic_app_ec2" {
+  ami                         = data.aws_ami.ubuntu_lts.image_id
+  instance_type               = "t2.micro"
+  subnet_id                   = aws_subnet.private_az1.id
+  associate_public_ip_address = true
+  key_name                    = aws_key_pair.deployer.key_name
+  security_groups             = [aws_security_group.allow_ssh.id]
+  count                       = 1
+
+  tags = {
+    Name = "SIC-App"
+  }
+}
