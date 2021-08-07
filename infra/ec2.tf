@@ -102,3 +102,8 @@ resource "aws_instance" "sic_app_ec2" {
     Name = "SIC-App"
   }
 }
+
+resource "aws_lb_target_group_attachment" "sic_app_lb_tg_attachment" {
+  target_group_arn = aws_lb_target_group.sic_app_lb_tg.arn
+  target_id        = aws_instance.sic_app_ec2[0].id
+}
