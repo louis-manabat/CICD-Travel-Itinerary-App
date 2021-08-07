@@ -70,3 +70,10 @@ resource "aws_lb" "sic_app_lb" {
     Environment = "production"
   }
 }
+
+resource "aws_lb_target_group" "sic_app_lb_tg" {
+  name     = "sic-app-lb-target-group"
+  port     = 80
+  protocol = "HTTP"
+  vpc_id   = aws_vpc.sic_vpc.id
+}
