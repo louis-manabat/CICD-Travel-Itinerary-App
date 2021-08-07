@@ -57,3 +57,16 @@ resource "aws_security_group" "allow_ssh" {
     Name = "allow_ssh"
   }
 }
+
+resource "aws_lb" "sic_app_lb" {
+  name                       = "sic-app-lb"
+  internal                   = false
+  load_balancer_type         = "application"
+  enable_deletion_protection = false
+  security_groups            = [aws_security_group.allow_http.id]
+  subnets                    = [aws_subnet.public_az1, aws_subnet.public_az2, aws_subnet.public_az3]
+
+  tags = {
+    Environment = "production"
+  }
+}
