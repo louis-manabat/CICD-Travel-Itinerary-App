@@ -25,3 +25,35 @@ resource "aws_security_group" "allow_http" {
     Name = "allow_http"
   }
 }
+
+resource "aws_security_group" "allow_ssh" {
+  description = "Allowing SSH traffic"
+  vpc_id      = aws_vpc.sic_vpc.id
+
+  ingress {
+    description = "SSH from internet"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress {
+    description = "Allowing port 5000"
+    from_port   = 5000
+    to_port     = 5000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "allow_ssh"
+  }
+}
