@@ -59,3 +59,36 @@ resource "aws_subnet" "public_az3" {
     Name = "sic-public-az3"
   }
 }
+
+resource "aws_subnet" "private_az1" {
+  vpc_id                  = aws_vpc.sic_vpc.id
+  cidr_block              = "10.0.16.0/22"
+  availability_zone       = "ap-southeast-2a"
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "sic-private-az1"
+  }
+}
+
+resource "aws_subnet" "private_az2" {
+  vpc_id                  = aws_vpc.sic_vpc.id
+  cidr_block              = "10.0.20.0/22"
+  availability_zone       = "ap-southeast-2b"
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "sic-private-az2"
+  }
+}
+
+resource "aws_subnet" "private_az3" {
+  vpc_id                  = aws_vpc.sic_vpc.id
+  cidr_block              = "10.0.24.0/22"
+  availability_zone       = "ap-southeast-2c"
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "sic-private-az3"
+  }
+}
