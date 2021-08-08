@@ -1,28 +1,39 @@
 resource "aws_dynamodb_table" "ddb-user-table" {
-  name = "users"
-  billing_mode = "PROVISIONED"
-  read_capacity = 10
-  write_capacity = 10
-  hash_key = "email"
+  name           = "users"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 5
+  write_capacity = 5
+  hash_key       = "email"
 
   attribute {
     name = "email"
     type = "S"
   }
 
-  global_secondary_index {
-    name = "Users_Email"
-    hash_key = "email"
-    projection_type = "ALL"
-    read_read_capacity = 10
-    write_capacity = 10
-  }
-
   tags = {
-      Name = "Simple Travel Itinerary App - User"
+    Name = "Simple Travel Itinerary App - User"
   }
 }
 
 resource "aws_dynamodb_table" "ddb-locations-table" {
-  
+  name           = "locations"
+  billing_mode   = "PROVISIONED"
+  read_capacity  = 5
+  write_capacity = 5
+  hash_key       = "city"
+  range_key      = "country"
+
+  attribute {
+    name = "city"
+    type = "S"
+  }
+
+  attribute {
+    name = "country"
+    type = "S"
+  }
+
+  tags = {
+    Name = "Simple Travel Itinerary App - Locations"
+  }
 }
