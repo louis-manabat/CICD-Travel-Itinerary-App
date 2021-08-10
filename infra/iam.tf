@@ -35,3 +35,8 @@ resource "aws_iam_role" "sic-ec2-assume-policy" {
     ]
   })
 }
+
+resource "aws_iam_instance_profile" "sic-ec2-profile" {
+  name = "sic_ec2_profile"
+  role = aws_iam_role.sic-ec2-assume-policy.name
+}
